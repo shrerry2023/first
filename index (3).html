@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Agamya ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+body{
+ margin:0;
+ font-family:Poppins,sans-serif;
+ background:black;
+ color:white;
+ overflow:hidden;
+}
+
+#intro{
+ position:fixed;
+ inset:0;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:black;
+ font-size:28px;
+ text-align:center;
+ padding:30px;
+ animation:fadeIn 2s ease;
+}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.hidden{display:none}
+
+.chat{
+ position:absolute;
+ inset:0;
+ display:flex;
+ flex-direction:column;
+ background:linear-gradient(270deg,#ff9a9e,#fad0c4,#fbc2eb,#a6c1ee);
+ background-size:600% 600%;
+ animation:bg 15s infinite alternate;
+ transition:background 0.5s ease;
+}
+@keyframes bg{0%{background-position:0%}100%{background-position:100%}}
+
+.header{
+ padding:15px;
+ text-align:center;
+ font-weight:600;
+ background:rgba(0,0,0,0.3);
+ backdrop-filter:blur(10px);
+}
+
+.box{
+ flex:1;
+ padding:20px;
+ overflow-y:auto;
+ display:flex;
+ flex-direction:column;
+ gap:12px;
+}
+
+.msg{
+ max-width:75%;
+ padding:12px 16px;
+ border-radius:20px;
+ animation:pop .3s ease;
+}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+
+.bot{background:white;color:black;align-self:flex-start}
+.user{background:#ff4fa3;align-self:flex-end}
+
+.inputArea{
+ display:flex;
+ padding:10px;
+ background:#0003;
+}
+input{flex:1;padding:12px;border:none;border-radius:20px}
+button{margin-left:10px;border:none;border-radius:50%;width:45px;height:45px;background:#ff4fa3;color:white;font-size:18px;transition:0.3s}
+button:hover{transform:scale(1.15)}
+
+.btns{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.choice{padding:10px 15px;border-radius:20px;background:white;color:black;cursor:pointer;transition:0.3s}
+.choice:hover{transform:scale(1.08)}
+
+#loveBar{
+ height:8px;
+ background:rgba(255,255,255,0.3);
+ margin:0 20px 10px 20px;
+ border-radius:20px;
+ overflow:hidden;
+}
+#loveFill{
+ height:100%;
+ width:0%;
+ background:#ff4fa3;
+ transition:width 0.4s ease;
+}
+
+.heart{
+ position:fixed;
+ font-size:20px;
+ animation:fall 2s linear forwards;
+}
+@keyframes fall{
+ to{transform:translateY(100vh);opacity:0}
+}
+
+
+/* heartbeat effect */
+.heartbeat{animation:beat 1s infinite alternate}
+@keyframes beat{from{transform:scale(1)}to{transform:scale(1.03)}}
+
+/* glow text */
+.glow{animation:glow 1.5s ease-in-out infinite alternate}
+@keyframes glow{from{text-shadow:0 0 5px #fff}to{text-shadow:0 0 20px #ff4fa3}}
+
+/* button pop */
+.popin{animation:popin .5s ease}
+@keyframes popin{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* sparkles */
+.spark{position:fixed;font-size:18px;animation:spark 1.5s linear forwards}
+@keyframes spark{to{transform:translateY(-100px) scale(0);opacity:0}}
+
+</style>
+</head>
+<body>
+
+<div id="intro">In a world full of ordinary people…<br><br>one extraordinary soul was born today.</div>
+
+<div class="chat hidden" id="chatUI">
+<div class="header">My Safe Place ❤️</div>
+<div id="loveBar"><div id="loveFill"></div></div>
+<div class="box" id="box"></div>
+<div class="inputArea">
+<input id="input" placeholder="Type here...">
+<button onclick="send()">➤</button>
+</div>
+</div>
+
+<!-- Background ambience music -->
+<audio autoplay loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3">
+</audio>
+
+<!-- Sahiba song (plays after YES on proposal) -->
+<audio id="sahibaSong">
+  <!-- Replace the src below with Sahiba – Aditya Rikhari mp3 file if you host it locally -->
+  <source src="sahiba.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+setTimeout(()=>{
+ document.getElementById("intro").classList.add("hidden");
+ document.getElementById("chatUI").classList.remove("hidden");
+ bot("Helloooo birthday girl 🎉");
+ bot("Tell me your name 😌");
+},4000);
+
+const box=document.getElementById("box");
+const loveFill=document.getElementById("loveFill");
+let name="";
+let love=0;
+
+function bot(t){
+ const d=document.createElement("div");
+ d.className="msg bot";
+ d.innerHTML=t;
+ box.appendChild(d);
+ box.scrollTop=box.scrollHeight;
+}
+
+function user(t){
+ const d=document.createElement("div");
+ d.className="msg user";
+ d.innerText=t;
+ box.appendChild(d);
+ box.scrollTop=box.scrollHeight;
+}
+
+function send(){
+ const inp=document.getElementById("input");
+ const txt=inp.value.trim();
+ if(!txt)return;
+ user(txt);
+ inp.value="";
+ reply(txt.toLowerCase());
+}
+
+function updateLove(){
+ love+=10;
+ if(love>100) love=100;
+ loveFill.style.width=love+"%";
+}
+
+function heartRain(){
+ for(let i=0;i<20;i++){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.top="-20px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),2000);
+ }
+}
+
+function reply(t){
+ if(t.includes("conrad")){ proposal(); return; }
+ if(!name){ name=t; bot(`Omg hiiii ${name} 😍`); return; }
+
+ if(t.includes("mcd")){
+  bot("Favv, mujhe ek cheez dil se kehni hai. Agar kabhi meri wajah se tumhe hurt hua hai, ya kabhi meri baaton ne tumhe unnecessary stress diya hai, toh uske liye I’m genuinely sorry. Distance ne shayad ham dono ko thoda confuse aur frustrated kar diya tha. Pehle jab tum hostel nahi gayi thi tab hum roz baat karte the, sab simple lagta tha… par jab tum hostel gayi aur life suddenly itni busy ho gayi, mujhe uss situation ko samajhna chahiye tha. Par kabhi kabhi main chidh gaya, complain kar diya, aur uss waqt shayad maine yeh nahi socha ki tum khud kitna manage kar rahi hogi.");
+
+  setTimeout(()=>bot("Jab tum hostel gayi aur life suddenly itni busy ho gayi, mujhe patience rakhna chahiye tha. Par kabhi kabhi main chidh gaya, complain kar diya, ya unnecessary tease kar diya — especially jab main bolta tha ki tum dusre logon se baat kar leti ho par mujhse nahi. Shayad mujhe us waqt yeh realise nahi hua ki woh baat tumhe hurt kar sakti hai. Ab jab peeche mudh ke dekhta hoon, toh samajh aata hai ki mujhe tumhe support karna chahiye tha, pressure nahi dena chahiye tha."),4000);
+
+  setTimeout(()=>bot("JO MAINE YE CHAT BOT BHI BANAYA HAI YE TB BANAYA JB ABHI HAM FEB ME LADE THE SERIOUSLY AASU AARHE THE MUJHE ISSI BANNE ME FAVV... Us waqt bas ek hi feeling thi — ki chahe kitni bhi misunderstandings ho jaayein, main phir bhi woh insaan rehna chahta hoon jo tere liye effort karta rahe. Shayad main perfect nahi hoon, par jo bhi karta hoon, dil se karta hoon."),9000);
+
+  setTimeout(()=>bot("Mujhe lagta hai distance ne hame kaafi kuch sikhaya hai. Jab do log alag cities me, apni apni responsibilities aur life ke pressure ke saath ek bond maintain karne ki koshish karte hain, toh ups and downs aana normal hai. Kabhi misunderstandings hongi, kabhi fights bhi hongi… par agar dil me intention saaf ho, toh bond fir bhi tootna nahi chahiye. In fights ke baad maine honestly kaafi kuch seekha hai, aur main genuinely try kar raha hoon better banne ki."),15000);
+
+  setTimeout(()=>bot("Aur ek baat dil se kehna chahta hoon… main un logon me se nahi banna chahta jo gusse ya frustration me bol dete hain ki 'kabhi nahi chhodunga' aur phir waqt aane par chale jaate hain. Shayad hum kabhi naraz bhi honge, kabhi lad bhi lenge, kabhi misunderstandings bhi hongi… par ek cheez pakki hai — main itni aasani se peeche hatne walon me se nahi hoon. Kabhi gussa aa sakta hai, kabhi awaaz bhi upar ho sakti hai, par dil me ek cheez hamesha clear rahegi — tum meri life me important ho. Isliye chahe life me kitni bhi problems aayein, distance ho, busy days ho, ya tough phases… main hamesha woh insaan rehna chahta hoon jo tumhare saath khada rahe. Once again… I’m really sorry for whatever I did that hurt you. Shayad mujhe adapt hone me thoda time lagta hai, par main seekh raha hoon… aur adapt kar raha hu… Aur haan… Happy Birthday, my serial killer ❤️"),21000);
+
+  return;
+ }
+
+ 
+ if(t.includes("143")){ memoryMode(); return; }
+ if(t.includes("drama")){ roast(); return; }
+ if(t.includes("hmm")){ updateLove(); bot("Hmm detected 😌💖"); return; }
+
+ const arr=["You're glowing today ✨","Main character energy 😎","Birthday queen vibes 👑","Someone is special today 💫"];
+ bot(arr[Math.floor(Math.random()*arr.length)]);
+}
+
+function roast(){
+ const r=[
+ "Tu smart hai… bas kabhi kabhi system update pending rehta hai 🤡",
+ "Teri logic kabhi kabhi airplane mode pe chali jaati hai ✈️",
+ "Tu cute hai but brain kabhi kabhi buffering karta hai 😌"
+ ];
+
+ // send a random roast first
+ bot(r[Math.floor(Math.random()*r.length)]);
+
+ // deep emotional follow ups
+ setTimeout(()=>bot("Waise kabhi kabhi lagta hai ki hamari conversations sirf normal talks nahi hoti. Unme ek ajeeb sa comfort hota hai… jaise kitni bhi tension ho ya kitna bhi hectic din ho, tere saath baat karke sab thoda halka lagne lagta hai."),2000);
+
+ setTimeout(()=>bot("Shayad isliye jab kabhi distance ya misunderstandings aati hain na, toh thoda ajeeb lagta hai… kyunki jab koi insaan aadat ban jaata hai, toh uske bina conversations bhi thodi incomplete lagti hain."),6000);
+
+ setTimeout(()=>bot("Aur honestly… duniya me bohot log milte hain, baat bhi hoti hai, par bahut kam log aise hote hain jinke saath bond feel hota hai. Tu un rare logon me se hai jo sirf friend nahi bante… aadat ban jaate hain."),10000);
+}
+
+function memoryMode(){
+ bot("Opening memory vault… 💌");
+
+ const memories=[
+ "Favv, yaad hai jab hum first time tuition pe mile the? Dono ekdum silent mode pe 😭 na hi hello na kuch… mujhe pata tha tum mujhe jaanti ho but tumne bilkul strangers jaisa behave kiya 😭 uss din mujhe literally laga ki shayad tum mujhe jaanti hi nahi ho… par honestly wahi awkward silence wali starting aaj itni strong bond ban jayegi, kabhi socha bhi nahi tha ❤️",
+
+ "Aur samvad PCO wali memories 😭 yaad hai kitni der khade hoke baat karte rehte the, yeh full awareness ke saath ki ghar jaake daant ka world record tootne wala hai 💀 par fir bhi mann hi nahi karta tha udhar se hilne ka… pata nahi kya jaadu tha un talks me ✨",
+
+ "Favv, honestly hamari aadhi memories shayad duniya ko thodi stupid ya random lagen… agar kisi aur ko batayein toh shayad unhe samajh bhi na aaye ki unme itna special kya hai 😭 par pata nahi kyun mere liye woh chhoti chhoti bakchodi wali moments hi sabse precious ban gaye. Shayad isliye kyunki un moments me sirf hasi ya mazaak nahi tha, balki ek aisi comfort aur closeness thi jo har kisi ke saath feel nahi hoti. Kabhi kabhi lagta hai ki hamari best memories kabhi plan hi nahi hui… woh bas apne aap ban gayi, bilkul waise hi jaise tu meri life me aayi — unexpectedly, par hamesha ke liye special ban ke. ❤️✨",
+
+ "My sweetest memory of 2025 💌 jab October me mile the aur roasting + bakchodi session chal raha tha aur tumne bola ki mere alawa tum kisi aur ladke ke saath comfortable hi nahi ho sakti iss duniya me ♾️ bhai uss moment pe jo feeling aayi thi na — DIL LITERALLY GARDEN GARDEN HO GAYA THA JIII 😭🫶 best line award forever tumhara 🏆",
+
+ "Aur honestly ek aur memory jo specific day ki nahi hai but har din ki hai — tumhare saath random chats, random fights, random laughs, random emotional talks… matlab normal din bhi special ban jata hai jab tu hoti hai 💫 tum ho toh boring days bhi highlight reel ban jaate hain ❤️"
+ ];
+
+ // show memories with smoother adaptive timing
+ memories.forEach((m,i)=>{
+  const delay = 1500 + i*4500; // slightly longer gap for better reading
+  setTimeout(()=>bot(m), delay);
+ });
+
+ setTimeout(()=>{
+  bot("Sach me… hamari memories ka koi replay button nahi hai, par achha hai — kyunki woh already perfect thi. ❤️");
+ }, memories.length*3500 + 2000);
+}
+
+function proposal(){
+ document.querySelector(".chat").classList.add("heartbeat");
+
+ const nameMsg=document.createElement("div");
+ nameMsg.className="msg bot glow";
+ nameMsg.innerText="Agamya…";
+ box.appendChild(nameMsg);
+
+ setTimeout(()=>bot("kabhi kabhi life me kuch log aise milte hain jo bas log nahi rehte…"),1200);
+ setTimeout(()=>bot("woh habit ban jaate hain."),2600);
+ setTimeout(()=>bot("aur tu…"),4200);
+ setTimeout(()=>bot("tu meri favourite habit hai ❤️"),5600);
+ setTimeout(()=>bot("agar life ek story hoti na…"),7200);
+ setTimeout(()=>bot("toh main har chapter me tujhe hi likhta."),8800);
+ setTimeout(()=>bot("aur agar mujhe choose karna pade — duniya ya tu…"),10400);
+ setTimeout(()=>bot("toh main bina soche… tujhe choose karta."),12000);
+ setTimeout(()=>bot("Because honestly… I don’t see my world without you."),13800);
+ setTimeout(()=>bot("Will you stay in my world forever? 💫"),15600);
+
+ setTimeout(()=>{
+  const wrap=document.createElement("div");
+  wrap.className="btns popin";
+
+  const yes=document.createElement("div");
+  yes.className="choice";
+  yes.innerText="Yes 💖";
+  yes.onclick=accept;
+
+  const obv=document.createElement("div");
+  obv.className="choice";
+  obv.innerText="Obviously Yes 😌";
+  obv.onclick=accept;
+
+  const no=document.createElement("div");
+  no.className="choice";
+  no.innerText="No";
+  no.onmouseover=()=>{
+   no.style.transform=`translate(${Math.random()*120-60}px,${Math.random()*80-40}px)`;
+  };
+
+  wrap.appendChild(yes);
+  wrap.appendChild(obv);
+  wrap.appendChild(no);
+  box.appendChild(wrap);
+  box.scrollTop=box.scrollHeight;
+ },17500);
+}
+
+function startHeartConfetti(){
+  setInterval(()=>{
+    for(let i=0;i<25;i++){
+      const h=document.createElement("div");
+      h.className="heart";
+      h.innerText="❤️";
+      h.style.left=Math.random()*100+"vw";
+      h.style.top="-20px";
+      h.style.fontSize=(16+Math.random()*20)+"px";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),3000);
+    }
+  },700);
+}
+
+function heartExplosion(){
+ for(let i=0;i<60;i++){
+  const h=document.createElement("div");
+  h.innerText="❤️";
+  h.style.position="fixed";
+  h.style.left="50%";
+  h.style.top="50%";
+  h.style.fontSize=(18+Math.random()*28)+"px";
+  h.style.pointerEvents="none";
+  const x=(Math.random()-0.5)*600;
+  const y=(Math.random()-0.5)*600;
+  h.style.transform="translate(-50%,-50%)";
+  h.style.transition="transform 1s ease-out, opacity 1s";
+  document.body.appendChild(h);
+  setTimeout(()=>{
+    h.style.transform=`translate(${x}px, ${y}px)`;
+    h.style.opacity="0";
+  },10);
+  setTimeout(()=>h.remove(),1100);
+ }
+}
+
+function accept(){
+ document.querySelector(".chat").classList.remove("heartbeat");
+ heartExplosion();
+ startHeartConfetti();
+ heartRain();
+
+ // play Sahiba song
+ const song = document.getElementById("sahibaSong");
+ if(song){
+   song.volume = 0;
+   song.play().catch(()=>{});
+
+   // smooth fade in
+   let v = 0;
+   const fade = setInterval(()=>{
+     v += 0.05;
+     if(v >= 1){ v = 1; clearInterval(fade); }
+     song.volume = v;
+   },200);
+ }
+
+ for(let i=0;i<25;i++){
+  const s=document.createElement("div");
+  s.className="spark";
+  s.innerText="✨";
+  s.style.left=Math.random()*100+"vw";
+  s.style.top=Math.random()*100+"vh";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),1500);
+ }
+
+ bot("I knew it 😌💖");
+ setTimeout(()=>finale(),2000);
+}
+
+function finale(){
+ box.innerHTML="";
+ heartRain();
+
+ bot("Happpyyyyy Birthdayyyyyyy meri Favvvvvvv ♾️❤️ sach bolu toh tu meri life ka sirf ek part nahi, meri poori story ka favourite chapter hai — tu meri comfort zone, meri safe place, meri aadat, meri peace aur meri har genuine smile ka reason hai. Tere saath jo bond hai na woh explain nahi hota, woh bas feel hota hai ✨ aur honestly duniya me bohot log milte hain aur chale jaate hain, par tu unme se nahi hai… tu woh hai jo andar bas jaati hai aur hamesha ke liye reh jaati hai. Kabhi kabhi main sochta hoon ki maine aisa kya accha kiya tha life me jo mujhe tu mil gayi, kyunki har kisi ko itni pure, itni real aur itni special soul nahi milti 💫 tere saath jo connection hai na woh sirf dosti nahi, woh ek feeling hai jo dil ko sukoon deti hai, jo har tension me shanti ban jaati hai, aur har khushi ko double kar deti hai. Mere liye har random talk, har stupid si laugh, har emotional moment special ban jaata hai sirf isliye kyunki tu hoti hai 💖 agar mujhe dobara life choose karne ka chance mile na, main har baar tujhe hi choose karunga as my person. Bas ek promise yaad rakh — time change ho sakta hai, log change ho sakte hain, duniya change ho sakti hai… par main tere liye kabhi nahi badlunga. Chahe distance ho, busy days ho, ya life ke toughest phases ho — tu mujhe hamesha wahi milegi jahan tu abhi hai: mere dil ke sabse safe corner me ♾️🫶 Tu meri forever ishq wala love hai ❤️♾️");
+
+ setTimeout(()=>{
+  // Hard cinematic takeover (guaranteed black screen)
+  document.body.innerHTML = `
+    <div style="
+      position:fixed;
+      inset:0;
+      background:black;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      color:white;
+      font-family:Poppins,sans-serif;
+      font-size:28px;
+      padding:30px;
+      animation:fadeFinal 3s ease forwards;
+    ">
+      In a world full of temporary people…<br>
+      You are permanent.<br><br>
+      <b>My Everything ❤️</b>
+    </div>
+    <style>
+      @keyframes fadeFinal{
+        from{opacity:0}
+        to{opacity:1}
+      }
+    </style>
+  `;
+ },7000);
+}
+
+function finale(){
+ box.innerHTML="";
+ heartRain();
+ bot("Happpyyyyy Birthdayyyyyyy meri Favvvvvvv ♾️❤️ sach bolu toh tu meri life ka sirf ek part nahi, meri poori story ka favourite chapter hai — tu meri comfort zone, meri safe place, meri aadat, meri peace aur meri har genuine smile ka reason hai. Tere saath jo bond hai na woh explain nahi hota, woh bas feel hota hai ✨ aur honestly duniya me bohot log milte hain aur chale jaate hain, par tu unme se nahi hai… tu woh hai jo andar bas jaati hai aur hamesha ke liye reh jaati hai. Kabhi kabhi main sochta hoon ki maine aisa kya accha kiya tha life me jo mujhe tu mil gayi, kyunki har kisi ko itni pure, itni real aur itni special soul nahi milti 💫 tere saath jo connection hai na woh sirf dosti nahi, woh ek feeling hai jo dil ko sukoon deti hai, jo har tension me shanti ban jaati hai, aur har khushi ko double kar deti hai. Mere liye har random talk, har stupid si laugh, har emotional moment special ban jaata hai sirf isliye kyunki tu hoti hai 💖 agar mujhe dobara life choose karne ka chance mile na, main har baar tujhe hi choose karunga as my person. Bas ek promise yaad rakh — time change ho sakta hai, log change ho sakte hain, duniya change ho sakti hai… par main tere liye kabhi nahi badlunga. Chahe distance ho, busy days ho, ya life ke toughest phases ho — tu mujhe hamesha wahi milegi jahan tu abhi hai: mere dil ke sabse safe corner me ♾️🫶 Tu meri forever ishq wala love hai ❤️♾️");
+ setTimeout(()=>{
+  bot("In a world full of temporary people…<br>You are permanent.<br><br><b>My Everything ❤️</b>");
+setTimeout(()=>bot("<b>I LOVE YOU ❤️</b>"),1200);
+ },5000);
+}
+</script>
+
+</body>
+</html>
